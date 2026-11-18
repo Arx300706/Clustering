@@ -1,0 +1,45 @@
+# Simulation locale des deux serveurs web (remplace les 2 VM de la TODO pour le test).
+# Serveur 1 : hôte 127.0.0.1:8081  -> conteneur :8080
+# Serveur 2 : hôte 127.0.0.1:8082  -> conteneur :8080
+services:
+  manager:
+    build: .
+    environment:
+      - SERVERS_FILE=/app/data/servers.json
+      - HAPROXY_FILE=/app/haproxy/generated.cfg
+      - HAPROXY_BIND=*:8080
+      - HAPROXY_ALGORITHM=roundrobin
+    ports:
+      - "127.0.0.1:8090:8080"
+    volumes:
+      - ./data:/app/data
+      - ./haproxy:/app/haproxy
+    depends_on:
+      - web1
+      - web2
+  web1:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    environment:
+      - SERVER_NAME=Serveur 1
+    ports:
+      - "127.0.0.1:8081:8080"
+
+  web2:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    environment:
+      - SERVER_NAME=Serveur 2
+    ports:
+      - "127.0.0.1:8082:8080"
+  haproxy:
+    image: haproxy:3.0-alpine
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    depends_on:
+      - web1
+      - web2

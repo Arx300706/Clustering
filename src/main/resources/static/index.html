@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HAProxy Manager</title><link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header><div><span class="eyebrow">CLUSTER / ADMINISTRATION</span><h1>HAProxy Manager</h1><p>Gérez vos serveurs backend et surveillez leur disponibilité.</p></div><button id="refresh" class="button secondary">↻ Actualiser</button></header>
+  <main>
+    <section class="stats" aria-label="Statistiques"><article><span>Serveurs configurés</span><strong id="total">—</strong></article><article><span>En ligne</span><strong id="active" class="green">—</strong></article><article><span>Indisponibles</span><strong id="unavailable" class="red">—</strong></article><article><span>État HAProxy</span><strong id="proxy">Non vérifié</strong></article></section>
+    <section class="panel"><div class="panel-head"><div><h2>Serveurs backend</h2><p>Vérification TCP automatique sur le port configuré.</p></div><button id="add" class="button primary">＋ Ajouter un serveur</button></div>
+      <div class="table-wrap"><table><thead><tr><th>Serveur</th><th>Adresse</th><th>Port</th><th>État</th><th>Activation</th><th></th></tr></thead><tbody id="servers"></tbody></table></div>
+      <div id="empty" class="empty" hidden>Aucun backend configuré. Ajoutez un serveur pour commencer.</div>
+    </section>
+    <section class="panel config-panel"><div class="panel-head"><div><h2>Configuration HAProxy</h2><p>Générez un fichier de configuration à partir des backends activés.</p></div><button id="generate" class="button secondary">Générer haproxy.cfg</button></div><pre id="message" aria-live="polite">Prêt.</pre></section>
+  </main>
+  <dialog id="form-dialog"><form id="server-form"><div class="panel-head"><h2 id="form-title">Ajouter un serveur</h2><button type="button" id="close" class="close" aria-label="Fermer">×</button></div><input type="hidden" id="server-id"><label>Nom<input id="name" required maxlength="80" placeholder="Serveur 1"></label><div class="form-row"><label>Adresse IP ou DNS<input id="ip" required pattern="[A-Za-z0-9.-]+" placeholder="192.168.1.11"></label><label>Port<input id="port" type="number" min="1" max="65535" value="8080" required></label></div><label class="check"><input id="enabled" type="checkbox" checked> Serveur activé</label><p id="error" class="error"></p><div class="actions"><button type="button" id="cancel" class="button secondary">Annuler</button><button class="button primary">Enregistrer</button></div></form></dialog>
+  <script src="/app.js" defer></script>
+</body></html>
