@@ -76,9 +76,9 @@ foreach ($lignes as $ligne) {
             }
         });
     </script>
-    <p>Enter le nom du service: <input name="service" id="service"></p>
-    <p>Entrer l'ip et le port du server: <input type="text" name="ip" id="ip">:<input type="text" name="port" id="port"></p>
-    <input type="submit" value="Envoyer">
+    <p>Enter le nom du service: <input name="service" id="service" required></p>
+    <p>Entrer l'ip et le port du server: <input type="text" name="ip" id="ip">:<input type="text" name="port" id="port" required></p>
+    <input type="submit" value="Envoyer" required>
 </form>
 <h2>Liste des servers</h2>
 <?php
